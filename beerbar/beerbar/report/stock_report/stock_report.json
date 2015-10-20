@@ -1,0 +1,18 @@
+{
+ "add_total_row": 1, 
+ "apply_user_permissions": 1, 
+ "creation": "2015-08-21 14:43:32.245334", 
+ "disabled": 0, 
+ "docstatus": 0, 
+ "doctype": "Report", 
+ "is_standard": "Yes", 
+ "modified": "2015-08-21 14:48:56.506318", 
+ "modified_by": "Administrator", 
+ "module": "Beerbar", 
+ "name": "Stock report", 
+ "owner": "Administrator", 
+ "query": "select \nb.brand_name as 'Brand',\nt.brand_type as 'Type',\nIF (dc.closing_stock IS NULL,'0',dc.closing_stock) as 'Opening',\nIF(pr.quantity IS NULL,'0',pr.quantity) as 'Received',\nIF(pr.quantity IS NULL OR dc.closing_stock IS NULL,IF (dc.closing_stock IS NULL,'0',dc.closing_stock),(dc.closing_stock+pr.quantity)) as 'Total',\nIF(s.quantity IS NULL ,'0',s.quantity) as 'Sale',\n((IF(pr.quantity IS NULL OR dc.closing_stock IS NULL,IF (dc.closing_stock IS NULL,'0',dc.closing_stock),(dc.closing_stock+pr.quantity)))-(IF(s.quantity IS NULL ,'0',s.quantity))) as 'Current Stock:Current Stock:110',\nIF(a.amount IS NULL ,'0',a.amount) as 'Sale Amt:Currency:120'\nfrom \n`tabAdd Brand` b \njoin `tabAdd Brand Type` t \nleft join `tabDayCloseInfo` dc on t.name=dc.brand_type and b.name=dc.brand \nleft join (select sum(pi.quantity)as quantity,pi.brand,pi.brand_type from `tabPurchaseinfo` pi join `tabPurchase` p on pi.parent=p.name and p.date=curdate() group by pi.brand,pi.brand_type) pr on pr.brand=b.name and pr.brand_type=t.name \nleft join (select sum(o.quantity) as quantity,o.item,o.btype from `tabOrder Item` o where  o.date=curdate() and o.btype!='' group by o.item,o.btype) s on s.item=b.brand_name and s.btype=t.brand_type \nleft join (select sum(o.amount) as amount,o.item,o.btype from `tabOrder Item` o where  o.date=curdate() and o.btype!='' group by o.item,o.btype) a on a.item=b.brand_name and a.btype=t.brand_type", 
+ "ref_doctype": "Order Item", 
+ "report_name": "Stock report", 
+ "report_type": "Query Report"
+}

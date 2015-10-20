@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include beerbar *.css
+recursive-include beerbar *.csv
+recursive-include beerbar *.html
+recursive-include beerbar *.ico
+recursive-include beerbar *.js
+recursive-include beerbar *.json
+recursive-include beerbar *.md
+recursive-include beerbar *.png
+recursive-include beerbar *.py
+recursive-include beerbar *.svg
+recursive-include beerbar *.txt
+recursive-exclude beerbar *.pyc
